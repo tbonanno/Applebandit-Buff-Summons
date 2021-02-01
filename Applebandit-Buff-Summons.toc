@@ -1,6 +1,6 @@
 ## Interface: 11305
 
-## Title: Applebandit Buff Summons 2
+## Title: Applebandit Buff Summons
 ## Notes: Useful tools for world buff summoning, modified from Consequence-Summons by Zyrrael, modified again by tbonanno
 ## Author: Applebandit, Zyrrael
 ## Version: 2.2
