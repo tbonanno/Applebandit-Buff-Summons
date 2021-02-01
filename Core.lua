@@ -349,7 +349,12 @@ ABsummoner.EventFrame:SetScript("OnEvent", function(self, event, ...)
       end
 
       -- Add player to summon list
-      SendChatMessage("Adding you to the summon list for "..GetZoneText(), "WHISPER", nil, zname)
+      if (event ~= "CHAT_MSG_RAID") then
+        SendChatMessage("Adding you to the raid for "..GetZoneText()..". Type "..SummonCode.." in raid chat.", "WHISPER", nil, zname)
+      end
+      if (event == "CHAT_MSG_RAID") then
+        SendChatMessage("Adding you to the summoning list for "..GetZoneText(), "WHISPER", nil, zname)
+      end
       PlaySoundFile("sound/interface/ui_bnettoast.ogg")
       -- ABsummoner.whotosummon[zname] = 0
       ABsummoner.Timer:Play()
