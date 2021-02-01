@@ -8,7 +8,7 @@ absummon_dire_maul_time = ""
 absummon_songflower_time = ""
 absummon_dragonslayer_time = ""
 absummon_auto_promote = true
-absummon_auto_invite = true
+absummon_auto_invite = false
 absummon_mark_summoner = true
 
 function ABsummoner.MakeFrame()
@@ -148,7 +148,8 @@ function ABsummoner.MakeFrame()
     ABsummoner.LootFrame.TopGuildFrame[h].Button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
     ABsummoner.LootFrame.TopGuildFrame[h].Button:SetPushedTexture(ABsummoner.LootFrame.TopGuildFrame[h].Buttonptex)
     ABsummoner.LootFrame.TopGuildFrame[h].Button:SetAttribute("type1", "macro");
-    ABsummoner.LootFrame.TopGuildFrame[h].Button:SetAttribute("macrotext", "/target party1 \n/cast Ritual of Summoning")
+    -- ABsummoner.LootFrame.TopGuildFrame[h].Button:SetAttribute("macrotext", "/target party1 \n/cast Ritual of Summoning")
+    ABsummoner.LootFrame.TopGuildFrame[h].Button:SetAttribute("macrotext", "/target party1")
     ABsummoner.LootFrame["TopGuildFrame"]:SetHeight(20+h*25)
 
 
@@ -234,7 +235,8 @@ function ABsummoner.CheckRaid()
       ABsummoner.LootFrame.TopGuildFrame[derpz].Time:Show()
       ABsummoner.LootFrame.TopGuildFrame[derpz].Button:SetAttribute("type1", "macro");
 
-      ABsummoner.LootFrame.TopGuildFrame[derpz].Button:SetAttribute("macrotext", "/target "..AAPC_Name..' \n/cast Ritual of Summoning')
+      -- ABsummoner.LootFrame.TopGuildFrame[derpz].Button:SetAttribute("macrotext", "/target "..AAPC_Name..' \n/cast Ritual of Summoning')
+      ABsummoner.LootFrame.TopGuildFrame[derpz].Button:SetAttribute("macrotext", "/target "..AAPC_Name)
 
     end
     ABsummoner.LootFrame["TopGuildFrame"]:SetHeight(20+derpz*25)
@@ -246,7 +248,7 @@ end
 function ABsummoner.pairsByKeys (t, f)
     local a = {}
     for n in pairs(t) do table.insert(a, n) end
-    table.sort(a, f)
+    -- table.sort(a, f)
     local i = 0      -- iterator variable
     local iter = function ()   -- iterator function
         i = i + 1
@@ -337,7 +339,7 @@ ABsummoner.EventFrame:SetScript("OnEvent", function(self, event, ...)
 
         -- Request an invite if you can't do it
         if summonRaidRank() == "none" then
-          SendChatMessage("Please make me assist, or invite "..zname.." for summons", "RAID", nil)
+          -- SendChatMessage("Please make me assist, or invite "..zname.." for summons", "RAID", nil)
 
         -- Or invite the player yourself
         else
@@ -374,7 +376,7 @@ ABsummoner.EventFrame:SetScript("OnEvent", function(self, event, ...)
 
     if unitCasting == "player" and spellID == 698 and UnitName("target") ~= nil then
       SendChatMessage("Summoning "..UnitName("target").." to "..GetZoneText(),(UnitInRaid("player") and "RAID" or "PARTY"))
-      SendChatMessage("Summoning you now - if you don't receive it, let me know", "WHISPER", nil, UnitName("target"))
+      SendChatMessage("Summoning you now", "WHISPER", nil, UnitName("target"))
     end
 
   end
@@ -395,10 +397,10 @@ ABsummoner.InviteEventFrame:SetScript("OnEvent", function(self, event, ...)
 
     -- If they are in a different group, let them know
     if UnitInRaid(playerName) == nil then
-      SendChatMessage("Error: can't invite, leave group and try again", "WHISPER", nil, playerName)
+      -- SendChatMessage("Error: can't invite, leave group and try again", "WHISPER", nil, playerName)
 
       -- Remove them from summon list
-      ABsummoner.whotosummon[playerName] = nil
+      -- ABsummoner.whotosummon[playerName] = nil
       PlaySoundFile("sound/interface/igquestfailed.ogg")
     end
   end
@@ -655,7 +657,7 @@ end
 
 -- Called when the addon is enabled
 function Applebandit_Buff_Summons:OnEnable()
-  self:Print("loaded. To open, type /summon")
+  -- self:Print("loaded. To open, type /summon")
   AceConfigDialog:SelectGroup("Applebandit_Buff_Summons")
 
   --Start automatic maintenance timer for auto promote/convert to raid
@@ -726,7 +728,7 @@ function sendSummonMessage(messageType)
 
   elseif GetZoneText() == "Felwood" then
     SummonZone = "Songflower buff"
-    SummonCode = "SONG"
+    SummonCode = "SF"
     SummonTime = absummon_songflower_time
     SummonTimeMsg = " Next flower at "..SummonTime.." -"
     SummonIconId = 1 --Star
@@ -747,7 +749,7 @@ function sendSummonMessage(messageType)
 
   elseif GetZoneText() == "Stranglethorn Vale" then
     SummonZone = "Heart of Hakkar buff"
-    SummonCode = "HOH"
+    SummonCode = "ZG"
     SummonTime = absummon_hakkar_time
     SummonTimeMsg = " Next buff at "..SummonTime.." -"
     SummonIconId = 3 --Diamond
@@ -792,9 +794,9 @@ function sendSummonMessage(messageType)
     if summonCheckClickers() > 0 and summonMessageChannel ~= "SILENT" then
 
       if summonParseTimes(SummonTime) then
-        SendChatMessage("Need "..summonCheckClickers().." clicker(s) for "..SummonZone.." summons."..SummonTimeMsg.." type CLICK for group invite.", summonMessageChannel, nil, nil)
+        SendChatMessage("Need "..summonCheckClickers().." clicker(s) for "..SummonZone.." summons."..SummonTimeMsg.." Whisper INV.", summonMessageChannel, nil, nil)
       else
-        SendChatMessage("Need "..summonCheckClickers().." clicker(s) for "..SummonZone.." summons. Type CLICK for group invite.", summonMessageChannel, nil, nil)
+        SendChatMessage("Need "..summonCheckClickers().." clicker(s) for "..SummonZone.." summons. Whisper INV.", summonMessageChannel, nil, nil)
       end
 
       -- Before starting a clicker recheck timer, cancel any existing ones
