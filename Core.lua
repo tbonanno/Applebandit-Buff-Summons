@@ -351,7 +351,7 @@ ABsummoner.EventFrame:SetScript("OnEvent", function(self, event, ...)
       -- Add player to summon list
       SendChatMessage("Adding you to the summon list for "..GetZoneText(), "WHISPER", nil, zname)
       PlaySoundFile("sound/interface/ui_bnettoast.ogg")
-      ABsummoner.whotosummon[zname] = 0
+      -- ABsummoner.whotosummon[zname] = 0
       ABsummoner.Timer:Play()
 
 
