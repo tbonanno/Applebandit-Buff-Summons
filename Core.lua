@@ -9,7 +9,7 @@ absummon_songflower_time = ""
 absummon_dragonslayer_time = ""
 absummon_auto_promote = true
 absummon_auto_invite = false
-absummon_mark_summoner = true
+absummon_mark_summoner = false
 
 function ABsummoner.MakeFrame()
   ABsummoner.LootFrame = {}
@@ -349,10 +349,10 @@ ABsummoner.EventFrame:SetScript("OnEvent", function(self, event, ...)
       end
 
       -- Add player to summon list
-      if (event ~= "CHAT_MSG_RAID") then
+      if (event ~= "CHAT_MSG_RAID" and event ~= "CHAT_MSG_RAID_LEADER") then
         SendChatMessage("Adding you to the raid for "..GetZoneText()..". Type "..SummonCode.." in raid chat.", "WHISPER", nil, zname)
       end
-      if (event == "CHAT_MSG_RAID") then
+      if (event == "CHAT_MSG_RAID" or event == "CHAT_MSG_RAID_LEADER") then
         SendChatMessage("Adding you to the summoning list for "..GetZoneText(), "WHISPER", nil, zname)
       end
       PlaySoundFile("sound/interface/ui_bnettoast.ogg")
